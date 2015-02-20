@@ -23,6 +23,13 @@ type commfn = {
   cleanfn : unit -> unit Lwt.t;
 }
 
+(** A less abstract version of resolve which allows the user to form there own DNS packet to resolve *)
+val resolve_packet : 
+  (module Dns.Protocol.CLIENT) ->
+  ?alloc:(unit -> Dns.Buf.t) ->
+  commfn -> Dns.Packet.t -> 
+  Dns.Packet.t Lwt.t
+  
 val resolve : 
   (module Dns.Protocol.CLIENT) ->
   ?alloc:(unit -> Dns.Buf.t) ->
@@ -30,13 +37,6 @@ val resolve :
   commfn -> Dns.Packet.q_class -> 
   Dns.Packet.q_type -> 
   Dns.Name.domain_name -> 
-  Dns.Packet.t Lwt.t
-
-(** A less abstract version of resolve which allows the user to form there own DNS packet to resolve *)
-val resolve_packet : 
-  (module Dns.Protocol.CLIENT) ->
-  ?alloc:(unit -> Dns.Buf.t) ->
-  commfn -> Dns.Packet.t -> 
   Dns.Packet.t Lwt.t
 
 val gethostbyname :

@@ -75,17 +75,6 @@ let send_pkt ?alloc client ({ txfn; rxfn; timerfn; cleanfn }) pkt =
       find_answer errors rs
   in select [] resl
 
-let resolve client
-    ?alloc
-    ?(dnssec=false)
-    (commfn:commfn)
-    (q_class:DP.q_class) (q_type:DP.q_type)
-    (q_name:domain_name) =
-  try_lwt
-    let id = (let module R = (val client : CLIENT) in R.get_id ()) in
-    let q = Dns.Query.create ~id ~dnssec q_class q_type q_name in
-    resolve_packet client ~alloc ~dnssec commfn q
-
 let resolve_packet client
     ?alloc
     (commfn:commfn)
@@ -100,6 +89,17 @@ let resolve_packet client
     commfn.cleanfn ()
     >>= fun () ->
     fail exn
+
+let resolve client
+    ?alloc
+    ?(dnssec=false)
+    (commfn:commfn)
+    (q_class:DP.q_class) (q_type:DP.q_type)
+    (q_name:domain_name) =
+  try_lwt
+    let id = (let module R = (val client : CLIENT) in R.get_id ()) in
+    let q = Dns.Query.create ~id ~dnssec q_class q_type q_name in
+    resolve_packet client ~alloc ~dnssec commfn q
 
 let gethostbyname
     ?alloc
