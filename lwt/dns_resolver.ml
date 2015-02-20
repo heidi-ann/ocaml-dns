@@ -96,7 +96,6 @@ let resolve client
     (commfn:commfn)
     (q_class:DP.q_class) (q_type:DP.q_type)
     (q_name:domain_name) =
-  try_lwt
     let id = (let module R = (val client : CLIENT) in R.get_id ()) in
     let q = Dns.Query.create ~id ~dnssec q_class q_type q_name in
     resolve_packet client ~alloc commfn q
