@@ -41,6 +41,10 @@ val string_to_domain_name : string -> domain_name
 (** Construct name for reverse lookup given an IPv4 address. *)
 val for_reverse : Ipaddr.V4.t -> domain_name
 
+(** Tests if the first {! domain_name} is a subzone of the second {!domain_name}
+	e.g. subzone ["foo";"bar"] ["bar"] would return true *)
+val subzone: domain_name -> domain_name -> bool
+
 (** Parse a {! domain_name} out of a {! Cstruct.t} given a set of already
     observed names from the packet, and the offset we are into the packet.
 

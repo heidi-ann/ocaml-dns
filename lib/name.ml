@@ -39,6 +39,11 @@ let domain_name_to_string dn = String.concat "." dn
 let string_to_domain_name (s:string) : domain_name =
   Re_str.split (Re_str.regexp "\\.") s
 
+let subzone szone zone = 
+  match (List.rev szone, List.rev zone) with
+    | _,[] -> true
+    | x::xs,y::ys -> if x=y then prefix xs ys else false
+
 let for_reverse ip =
   (".arpa.in-addr."^Ipaddr.V4.to_string ip) |> string_to_domain_name |> List.rev
 
