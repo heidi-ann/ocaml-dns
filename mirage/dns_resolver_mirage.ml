@@ -40,6 +40,12 @@ module type S = sig
     Dns.Name.domain_name ->
     Dns.Packet.t Lwt.t
 
+  val resolve_packet :
+    (module Dns.Protocol.CLIENT) ->
+    t -> Ipaddr.V4.t -> int ->
+    Dns.Packet.t ->
+    Dns.Packet.t Lwt.t
+
   val gethostbyname : t ->
     ?server:Ipaddr.V4.t -> ?dns_port:int ->
     ?q_class:Dns.Packet.q_class ->
@@ -69,6 +75,11 @@ module Static = struct
       (q_class:DP.q_class) (q_type:DP.q_type)
       (q_name:domain_name) =
     fail (Failure "Dummy stack cannot call resolve")
+
+  let resolve_packet client
+      s server dns_port
+      (q:DP.t) =
+    fail (Failure "Dummy stack cannot call resolve packet")
 
   let gethostbyname
       s ?(server = default_ns) ?(dns_port = default_port)
@@ -131,6 +142,12 @@ module Make(Time:V1_LWT.TIME)(S:V1_LWT.STACKV4) = struct
       (q_name:domain_name) =
     let commfn = connect_to_resolver s (server,dns_port) in
     resolve ~alloc client commfn q_class q_type q_name
+
+  let resolve_packet client
+      s server dns_port
+      (q:DP.t) =
+    let commfn = connect_to_resolver s (server,dns_port) in
+    resolve_packet ~alloc client commfn q
 
   let gethostbyname
       s ?(server = default_ns) ?(dns_port = default_port)

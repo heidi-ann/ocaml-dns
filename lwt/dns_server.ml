@@ -1,4 +1,4 @@
-(*
+§(*
  * Copyright (c) 2005-2012 Anil Madhavapeddy <anil@recoil.org>
  * Copyright (c) 2013 David Sheets <sheets@alum.mit.edu>
  *

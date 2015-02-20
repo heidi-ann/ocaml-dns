@@ -32,6 +32,13 @@ val resolve :
   Dns.Name.domain_name -> 
   Dns.Packet.t Lwt.t
 
+(** A less abstract version of resolve which allows the user to form there own DNS packet to resolve *)
+val resolve_packet : 
+  (module Dns.Protocol.CLIENT) ->
+  ?alloc:(unit -> Dns.Buf.t) ->
+  commfn -> Dns.Packet.t -> 
+  Dns.Packet.t Lwt.t
+
 val gethostbyname :
   ?alloc:(unit -> Dns.Buf.t) ->
   ?q_class:Dns.Packet.q_class ->

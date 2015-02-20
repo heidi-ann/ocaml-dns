@@ -30,6 +30,12 @@ module type S = sig
     Dns.Packet.q_type ->
     Dns.Name.domain_name ->
     Dns.Packet.t Lwt.t
+  
+  val resolve_packet :
+    (module Dns.Protocol.CLIENT) ->
+    t -> Ipaddr.V4.t -> int ->
+    Dns.Packet.t ->
+    Dns.Packet.t Lwt.t
 
   val gethostbyname : t ->
     ?server:Ipaddr.V4.t -> ?dns_port:int ->
