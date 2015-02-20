@@ -14,4 +14,4 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-val create: ~id:int -> ~zonename:Name.domain_name -> ~rr:Packet.rr list -> Packet.t
+val create: ?id:int -> ?zonename:Name.domain_name -> ?rr:Packet.rr list -> Packet.t
