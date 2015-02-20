@@ -19,7 +19,7 @@ open Packet
 exception InvalidUpdate of string
 
 let check_zonename zonename rr = 
-	if not (List.all (fn r -> Name.subzone r.q_name zonename) rr)
+	if not (List.all (fun r -> Name.subzone r.q_name zonename) rr)
 	then raise InvalidUpdate "All RRs must be within the zonename"
 
 let zone_class = function
