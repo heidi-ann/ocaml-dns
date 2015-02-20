@@ -98,7 +98,7 @@ let resolve client
     (q_name:domain_name) =
     let id = (let module R = (val client : CLIENT) in R.get_id ()) in
     let q = Dns.Query.create ~id ~dnssec q_class q_type q_name in
-    resolve_packet client ~alloc commfn q
+    resolve_packet client ?alloc commfn q
 
 let gethostbyname
     ?alloc
